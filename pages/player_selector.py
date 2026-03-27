@@ -5,6 +5,11 @@ player_bets = {}
 st.page_link("main.py", label="Startseite")
 st.title("Blackjack Zähler")
 st.header("Spielerauswahl")
+st.markdown("""
+    <style>
+        [data-testid="stSidebarNav"] {display: none;}
+    </style>
+""", unsafe_allow_html=True)
 players = st.multiselect(
     "Wer spielt mit?",
     options=[],
