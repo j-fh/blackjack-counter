@@ -8,6 +8,9 @@ if st.query_params.get("utm_source") != "player_selector":
 players = st.session_state.get("players")
 budget = st.session_state.get("budget")
 
+if players == []:
+    st.switch_page("pages/player_selector.py")
+
 if "player_bets" not in st.session_state:
     st.switch_page("pages/player_selector.py")
 else:
@@ -49,33 +52,35 @@ create_md_table()
 
 # –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-st.markdown("""
-    <style>
-        [data-testid="stSidebarNav"] {display: none;}
-        [data-testid="stSidebarCollapseButton"] {display: none;}
-    </style>
-""", unsafe_allow_html=True)
 
 st.page_link("main.py", label="Startseite")
 
 st.title("Blackjack Zähler")
 
-if progress < 95:
+if progress < 95 and len(players) >= 2:
     st.progress(progress)
     progress = int(progress + progress_chunk)
 
 if player_id_helper < len(players):
     st.sidebar.table(md_list)
-    st.write(f":rainbow[**{players[player_id_helper]}**], bitte mach deinen Einsatz. Du hast noch **{player_bets[player_id_helper]}฿**")
-    player_bet_input = st.number_input("Einsatz", value=None, step=10, min_value=1, max_value=player_bets[player_id_helper], icon="💵")
-    if st.button("Weiter"):
-        player_bets[player_id_helper] = player_bets[player_id_helper] - player_bet_input
-        player_bet_dict[player_id_helper] = player_bet_input
-        st.session_state.player_id_helper = st.session_state.player_id_helper + 1
-        st.session_state.player_bets = player_bets
-        st.session_state.progress = progress
-        st.session_state.player_bet_dict = player_bet_dict
-        st.rerun()
+    if player_bets[player_id_helper] >= 1:
+        st.write(f":rainbow[**{players[player_id_helper]}**], bitte mach deinen Einsatz. Du hast noch **{player_bets[player_id_helper]}฿**")
+        player_bet_input = st.number_input("Einsatz", value=None, step=10, min_value=1, max_value=player_bets[player_id_helper], icon="💵")
+        if st.button("Weiter"):
+            player_bets[player_id_helper] = player_bets[player_id_helper] - player_bet_input
+            player_bet_dict[player_id_helper] = player_bet_input
+            st.session_state.player_id_helper = st.session_state.player_id_helper + 1
+            st.session_state.player_bets = player_bets
+            st.session_state.progress = progress
+            st.session_state.player_bet_dict = player_bet_dict
+            st.rerun()
+# ––––– if someone has no money anymore, delete them ––––––––
+    else:
+            st.session_state.player_bets = player_bets
+            st.session_state.progress = progress
+            del st.session_state.players[player_id_helper]
+            del st.session_state.player_bets[player_id_helper]
+            st.rerun()
 elif result_player_id_helper < len(players):
 # ––––– continue –––––––––––––––––––––––––––––––––––––––––––––
     st.write(f":rainbow[**{players[result_player_id_helper]}**], hast du Gewonnen?")
@@ -86,6 +91,8 @@ elif result_player_id_helper < len(players):
         st.rerun()
     if st.button("Nein"):
         st.session_state.result_player_id_helper = st.session_state.result_player_id_helper + 1
+        if player_bets[result_player_id_helper] < 1:
+            st.write(f"{players[result_player_id_helper]}, du bist leider raus.")
         st.rerun()
 else:
     del st.session_state.player_id_helper

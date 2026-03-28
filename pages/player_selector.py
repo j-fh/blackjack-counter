@@ -1,15 +1,10 @@
 import streamlit as st
 
-player_bets = {}
+player_bets = []
 
 st.page_link("main.py", label="Startseite")
 st.title("Blackjack Zähler")
 st.header("Spielerauswahl")
-st.markdown("""
-    <style>
-        [data-testid="stSidebarNav"] {display: none;}
-    </style>
-""", unsafe_allow_html=True)
 players = st.multiselect(
     "Wer spielt mit?",
     options=[],
@@ -30,7 +25,6 @@ budget = st.number_input("Einsatz", value=500)
 if st.button("Weiter"):
     @st.dialog("Passt alles?")
     def show_submit_dialog():
-        player_id_helper = 0
         
         st.write("## Spieler*innen:")
         st.markdown("\n".join(f"- {player}" for player in players))
@@ -42,8 +36,7 @@ if st.button("Weiter"):
             st.session_state.dealer = dealer
             st.session_state.budget = budget
             for player in players:
-                player_bets[player_id_helper] = budget
-                player_id_helper = player_id_helper + 1
+                player_bets.append(budget)
             st.session_state.player_bets = player_bets
     if players and budget > 0:
         show_submit_dialog()
