@@ -1,37 +1,48 @@
 import streamlit as st
 
+
+if "lang" not in st.session_state:
+    st.switch_page("main.py")
+else:
+    t = st.session_state.lang
+    
 player_bets = []
 
-st.page_link("main.py", label="Startseite")
-st.title("Blackjack Zähler")
-st.header("Spielerauswahl")
+t = st.session_state.lang 
+
+st.set_page_config(page_title=t["ps_title"])
+
+
+st.page_link("main.py", label=t["home"])
+st.title(t["title"])
+st.header(t["ps_title"])
 players = st.multiselect(
-    "Wer spielt mit?",
+    t["ps_player_input_label"],
     options=[],
-    placeholder="Namen der Spieler*innen",
+    placeholder=t["ps_player_input_placeholder"],
     accept_new_options=True
 )
 
 dealer = st.selectbox(
-    "Wer ist Dealer?",
+    t["ps_dealer_input_label"],
     [],
     index=None,
-    placeholder="Name des Dealers",
+    placeholder=t["ps_dealer_input_placeholder"],
     accept_new_options=True
 )
 
-budget = st.number_input("Einsatz", value=500)
+budget = st.number_input(t["ps_budget_input_label"], value=500)
 
-if st.button("Weiter"):
-    @st.dialog("Passt alles?")
+if st.button(t["continue"]):
+    @st.dialog(t["ps_dialog_label"])
     def show_submit_dialog():
         
-        st.write("## Spieler*innen:")
+        st.write(f"## {t["ps_dialog_players"]}")
         st.markdown("\n".join(f"- {player}" for player in players))
         if dealer:
-            st.write(f"## Dealer: {dealer}")
-        st.write("## Budget:", budget)
-        if st.page_link("pages/game.py", label="Spiel starten!", query_params={"utm_source": "player_selector"}):
+            st.write(f"## {t["ps_dialog_dealer"]} {dealer}")
+        st.write(f"## {t["ps_dialog_budget"]} {budget}")
+        if st.page_link("pages/game.py", label=t["ps_dialog_page_link_label"], query_params={"utm_source": "player_selector"}):
             st.session_state.players = players
             st.session_state.dealer = dealer
             st.session_state.budget = budget
@@ -41,4 +52,4 @@ if st.button("Weiter"):
     if players and budget > 0:
         show_submit_dialog()
     else:
-        st.error("Mindestens ein Spieler und ein Einsatz größer als 0 sind erforderlich.", icon="❌")
+        st.error(t["ps_input_error_msg"], icon="❌")
