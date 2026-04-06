@@ -6,7 +6,7 @@ LANG = {
         "title": "Blackjack Zähler",
         "continue": "Weiter",
 
-        "m_info_text": "Eine Blackjack-App, die Chips/Währung ersetzt - gespielt wird trotzdem mit echten Karten. Entstanden ist sie, weil ich nicht immer meinen Pokerkoffer mitschleppen, aber auch nicht auf das Gefühl physischer Karten verzichten will. Quasi eine Hybridlösung",
+        "m_info_text": "Eine Blackjack-App, die Chips/Währung ersetzt - gespielt wird aber trotzdem mit echten Karten. Entstanden ist sie, weil ich nicht immer meinen Pokerkoffer mitschleppen, aber auch nicht auf das Gefühl physischer Karten verzichten will. Quasi eine Hybridlösung",
         "m_go_button_label": "Los!",
 
         "ps_title": "Spielerauswahl",
@@ -58,7 +58,7 @@ LANG = {
         "g_win_check_text": "did you win?",
         "g_win_check_yes": "Yes",
         "g_win_check_no": "No",
-        "g_win_check_kick_text": "sadly, yo're out.",
+        "g_win_check_kick_text": "sadly, you're out.",
 
     },
 }
