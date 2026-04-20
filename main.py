@@ -28,6 +28,7 @@ LANG = {
         "g_win_check_text": "hast du Gewonnen?",
         "g_win_check_yes": "Ja",
         "g_win_check_no": "Nein",
+        "g_win_check_tie": "Unentschieden",
         "g_win_check_kick_text": "du bist leider raus.",
 
     },
@@ -57,6 +58,7 @@ LANG = {
         "g_bet_input_label": "Bet",
         "g_win_check_text": "did you win?",
         "g_win_check_yes": "Yes",
+        "g_win_check_tie": "Tie",
         "g_win_check_no": "No",
         "g_win_check_kick_text": "sadly, you're out.",
 

@@ -90,15 +90,20 @@ elif result_player_id_helper < len(players):
 # ––––– continue –––––––––––––––––––––––––––––––––––––––––––––
     st.write(f":rainbow[**{players[result_player_id_helper]}**], {t["g_win_check_text"]}")
     st.sidebar.table(md_list)
-    if st.button(t["g_win_check_yes"]):
-        player_bets[result_player_id_helper] = player_bets[result_player_id_helper] + player_bet_dict[result_player_id_helper] * 2
-        st.session_state.result_player_id_helper = st.session_state.result_player_id_helper + 1
-        st.rerun()
-    if st.button(t["g_win_check_no"]):
-        st.session_state.result_player_id_helper = st.session_state.result_player_id_helper + 1
-        if player_bets[result_player_id_helper] < 1:
-            st.write(f"{players[result_player_id_helper]}, {t["g_win_check_kick_text"]}")
-        st.rerun()
+    with st.container(horizontal=True):
+        if st.button(t["g_win_check_yes"]):
+            player_bets[result_player_id_helper] = player_bets[result_player_id_helper] + player_bet_dict[result_player_id_helper] * 2
+            st.session_state.result_player_id_helper = st.session_state.result_player_id_helper + 1
+            st.rerun()
+        if st.button(t["g_win_check_tie"]):
+            player_bets[result_player_id_helper] = player_bets[result_player_id_helper] + player_bet_dict[result_player_id_helper]
+            st.session_state.result_player_id_helper = st.session_state.result_player_id_helper + 1
+            st.rerun()
+        if st.button(t["g_win_check_no"]):
+            st.session_state.result_player_id_helper = st.session_state.result_player_id_helper + 1
+            if player_bets[result_player_id_helper] < 1:
+                st.write(f"{players[result_player_id_helper]}, {t["g_win_check_kick_text"]}")
+            st.rerun()
 else:
     del st.session_state.player_id_helper
     del st.session_state.result_player_id_helper
